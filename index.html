@@ -3,109 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Password Generator 🔐</title>
-    <link rel="stylesheet" href="passwordgenerator.css">
+    <title>Random Password Generator -Easy Tutorials</title>
+    <link rel="stylesheet" href="passwordgenerator.css" >
 </head>
 <body>
-
-<div class="container">
-    <h1>Generate a <br><span>Random Password</span></h1>
-
-    <div class="display">
-        <input type="text" id="Password" placeholder="Password" readonly>
-        <img src="https://cdn-icons-png.flaticon.com/128/60/60990.png" onclick="copyPassword()">
+    <div class="container">
+        <h1>Generate a <br> <span>Random Password</span></h1>
+        <div class="display">
+            <input type="text" id="Password" placeholder="Password">
+            <img src="https://up.yimg.com/ib/th/id/OIP.gr89WSec3JHvGLQPyUlwxQHaHa?pid=Api&rs=1&c=1&qlt=95&w=121&h=121" onclick="copyPassword()">
+        </div>
+        <button onclick="create()">Generate password</button>
     </div>
-
-    <!-- Length Slider -->
-    <label>Password Length: <span id="lengthValue">12</span></label>
-    <input type="range" id="lengthSlider" min="6" max="20" value="12">
-
-    <!-- Options -->
-    <div class="options">
-        <label><input type="checkbox" id="uppercase" checked> Uppercase</label>
-        <label><input type="checkbox" id="lowercase" checked> Lowercase</label>
-        <label><input type="checkbox" id="numbers" checked> Numbers</label>
-        <label><input type="checkbox" id="symbols" checked> Symbols</label>
-    </div>
-
-    <!-- Strength -->
-    <p>Password Strength: <span id="strength">--</span></p>
-
-    <button onclick="create()">Generate Password</button>
-</div>
-
-<script>
-    const passwordBox = document.getElementById("Password");
-const lengthSlider = document.getElementById("lengthSlider");
-const lengthValue = document.getElementById("lengthValue");
-const strengthText = document.getElementById("strength");
-
-// Character sets
-const lower = "abcdefghijklmnopqrstuvwxyz";
-const upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-const num = "1234567890";
-const symbol = "!@#$%^&*()_+|}{'}/,.";
-
-// Update slider value
-lengthSlider.oninput = () => {
-    lengthValue.innerText = lengthSlider.value;
-};
-
-// Generate password
-function create() {
-    let password = "";
-    let allchars = "";
-
-    if (document.getElementById("uppercase").checked) allchars += upper;
-    if (document.getElementById("lowercase").checked) allchars += lower;
-    if (document.getElementById("numbers").checked) allchars += num;
-    if (document.getElementById("symbols").checked) allchars += symbol;
-
-    if (allchars === "") {
-        alert("Select at least one option!");
-        return;
+    <script>
+        const passwordBox=document.getElementById("Password")
+        const length=12
+        const lowercase="QWERTYUIOPLKJHGFDSAZXCVBNM"
+        const upper="qwertyuioplkjhgfdsazxcvbnm"
+        const num="1234567890"
+        const symbol="!@#$%^&*()_+|}{'}/,."
+         let allchars=lowercase+upper+num+symbol
+        
+        function create(){
+            let password=""
+        password+=upper[Math.floor(Math.random()*upper.length)]
+        password+=lowercase[Math.floor(Math.random()*lowercase.length)]
+        password+=num[Math.floor(Math.random()*num.length)]
+        password+=symbol[Math.floor(Math.random()*symbol.length)]
+        while(password.length<length){
+            password+=allchars[Math.floor(Math.random()*allchars.length)]
+        }
+        passwordBox.value=password
     }
-
-    for (let i = 0; i < lengthSlider.value; i++) {
-        password += allchars[Math.floor(Math.random() * allchars.length)];
+    function copyPassword(){
+        passwordBox.select();
+        document.execCommand("copy");
     }
-
-    passwordBox.value = password;
-    checkStrength(password);
-}
-
-// Strength checker
-function checkStrength(password) {
-    let strength = "Weak";
-
-    if (password.length >= 10) strength = "Medium";
-    if (
-        password.length >= 12 &&
-        /[A-Z]/.test(password) &&
-        /[a-z]/.test(password) &&
-        /[0-9]/.test(password) &&
-        /[^A-Za-z0-9]/.test(password)
-    ) {
-        strength = "Strong";
-    }
-
-    strengthText.innerText = strength;
-
-    if (strength === "Weak") strengthText.style.color = "red";
-    else if (strength === "Medium") strengthText.style.color = "orange";
-    else strengthText.style.color = "green";
-}
-
-// Copy password
-function copyPassword() {
-    if (passwordBox.value === "") {
-        alert("Generate password first!");
-        return;
-    }
-
-    navigator.clipboard.writeText(passwordBox.value);
-    alert("Password copied!");
-}
-</script>
+    </script>
+    
 </body>
 </html>
+
+
+
